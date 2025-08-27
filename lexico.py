@@ -3,12 +3,14 @@ from ttoken import TOKEN
 class Lexico:
     def __init__(self, arqFonte):
         self.arqFonte = arqFonte
-        self.Fonte = self.arqFonte.read()
-        self.tamFonte = len(self.Fonte)
+        with open(self.arqFonte, 'r', encoding='utf-8') as f:
+            self.fonte = f.read()
+        self.tamFonte = len(self.fonte)
         self.indiceFonte = 0
         self.tokenLido = None
         self.linha = 1
         self.coluna = 0
+
 
     def fimDoArquivo(self):
         return self.indiceFonte >= self.tamFonte
@@ -37,6 +39,20 @@ class Lexico:
         msg = TOKEN.msg(token)
         print(f'(tk={msg}lex = "{lexema}"lin = {linha} col = {coluna})')
 
+    def descartaBrancosEComentarios(self):
+        while True:
+            simbolo = self.getchar()
+            if simbolo == '\0':
+                return
+            if simbolo.isspace():
+                continue
+            if simbolo == '//':
+                while simbolo != '\n' and simbolo != '\0':
+                    simbolo = self.getchar()
+                continue
+            self.ungetchar(simbolo)
+            return
+
     def getToken(self):
         estado = 1
         simbolo = self.getchar()
@@ -50,8 +66,13 @@ class Lexico:
             if estado == 1:
                 if simbolo.isalpha():
                     estado = 2 #idents, pal.reservadas
+                
                 elif simbolo.isdigit():
                     estado = 3 #numeros
+                
+                elif simbolo == '\0':
+                    return (TOKEN.eof, '', self.linha, self.coluna)
+
             elif estado == 2:
                 if simbolo.isalnum():
                     estado = 2
@@ -59,12 +80,14 @@ class Lexico:
                     self.ungetchar(simbolo)
                     token = TOKEN.reservada(lexema)
                     return (token, lexema, lin, col)
-
-            lexema = lexema + simbolo
+            
+            
+            if simbolo not in ['\n', '\r']:
+                lexema += simbolo  # evita adicionar quebra de linha
             simbolo = self.getchar()
 
 if __name__ == '__main__':
-    lexico = Lexico("teste.toy")
+    lexico = Lexico("Toy-sample.txt")
     token = lexico.getToken()
     while(token[0] != TOKEN.eof):
         lexico.imprimeToken(token)
