@@ -117,7 +117,7 @@ class Lexico:
                     return (token, lexema, lin, col)
             
             elif estado == 3:
-                if simbolo.isdigit():
+                if simbolo.isdigit() or simbolo == ".":
                     estado = 3
                 elif simbolo.isalpha():
                     return (TOKEN.erro, lexema, lin, col)
