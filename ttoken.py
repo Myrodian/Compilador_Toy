@@ -21,24 +21,25 @@ class TOKEN(IntEnum):
     virg = 13
     ptoVirg = 14
     pto = 15
-    igual = 16
-    diferente = 17
-    menor = 18
-    menorIgual = 19
-    maior = 20
-    maiorIgual = 21
-    AND = 22
-    OR = 23
-    NOT = 24
-    mais = 25
-    menos = 26
-    multiplica = 27
-    divide = 28
-    LEIA = 29
-    ESCREVA = 30
-    abreChave = 31
-    fechaChave = 32
-    atrib = 33
+    atrib = 16
+    igual = 17
+    diferente = 18
+    menor = 19
+    menorIgual = 20
+    maior = 21
+    maiorIgual = 22
+    AND = 23
+    OR = 24
+    NOT = 25
+    mais = 26
+    menos = 27
+    multiplica = 28
+    divide = 29
+    LEIA = 30
+    ESCREVA = 31
+    abreChave = 32
+    fechaChave = 33
+
 
     @classmethod
     def msg(cls, token):
@@ -74,8 +75,8 @@ class TOKEN(IntEnum):
             29:'/',
             30:'leia',
             31:'escreva',
-            33:'{',
-            34:'}',
+            32:'{',
+            33:'}',
         }
         return nomes[token]
 

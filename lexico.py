@@ -37,7 +37,7 @@ class Lexico:
     def imprimeToken(self, tokenCorrente):
         (token, lexema, linha, coluna) = tokenCorrente
         msg = TOKEN.msg(token)
-        print(f'(tk={msg}lex = "{lexema}"lin = {linha} col = {coluna})')
+        print(f'(tk={msg} lex ="{lexema}" lin = {linha} col = {coluna})')
 
     def descartaBrancosEComentarios(self):
         while True:
@@ -58,10 +58,11 @@ class Lexico:
         simbolo = self.getchar()
         lexema = ''
 
-        self.descartaBrancosEComentarios() #fazer essa função para descartar comentarios
+        self.descartaBrancosEComentarios() # descarta espaços em branco e comentários
         
         lin = self.linha
         col = self.coluna
+
         while(True):
             if estado == 1:
                 if simbolo.isalpha():
@@ -70,6 +71,9 @@ class Lexico:
                 elif simbolo.isdigit():
                     estado = 3 #numeros
                 
+                elif simbolo == '+':
+                    return (TOKEN.soma, simbolo, lin, col)
+
                 elif simbolo == '\0':
                     return (TOKEN.eof, '', self.linha, self.coluna)
 
@@ -81,6 +85,14 @@ class Lexico:
                     token = TOKEN.reservada(lexema)
                     return (token, lexema, lin, col)
             
+            elif estado == 3:
+                if simbolo.isdigit():
+                    estado = 3
+                else:
+                    self.ungetchar(simbolo)
+                    return (token, lexema, lin, col)
+            elif estado == 4:
+
             
             if simbolo not in ['\n', '\r']:
                 lexema += simbolo  # evita adicionar quebra de linha
