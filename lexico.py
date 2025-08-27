@@ -37,28 +37,12 @@ class Lexico:
     def imprimeToken(self, tokenCorrente):
         (token, lexema, linha, coluna) = tokenCorrente
         msg = TOKEN.msg(token)
-        print(f'(tk={msg} lex ="{lexema}" lin = {linha} col = {coluna})')
-
-    def descartaBrancosEComentarios(self):
-        while True:
-            simbolo = self.getchar()
-            if simbolo == '\0':
-                return
-            if simbolo.isspace():
-                continue
-            if simbolo == '//':
-                while simbolo != '\n' and simbolo != '\0':
-                    simbolo = self.getchar()
-                continue
-            self.ungetchar(simbolo)
-            return
+        print(f'(token = {msg}\t lex = "{lexema}" \t lin = {linha} col = {coluna})')
 
     def getToken(self):
         estado = 1
         simbolo = self.getchar()
         lexema = ''
-
-        self.descartaBrancosEComentarios() # descarta espaços em branco e comentários
         
         lin = self.linha
         col = self.coluna
@@ -71,8 +55,55 @@ class Lexico:
                 elif simbolo.isdigit():
                     estado = 3 #numeros
                 
+                elif simbolo == '/':  # pode ser divisão ou comentário
+                    estado = 4
+                
+                elif simbolo == '=': # verificar se é comparação ou atribuição
+                    estado = 5
+
+                elif simbolo == '<':
+                    estado = 6
+
+                elif simbolo == '>':
+                    estado = 7
+
+                elif simbolo == '\'':
+                    estado = 8
+                
+                elif simbolo == '\"':
+                    estado = 9
+
+                elif simbolo == '!':
+                    estado = 10
                 elif simbolo == '+':
-                    return (TOKEN.soma, simbolo, lin, col)
+                    return (TOKEN.mais, simbolo, lin, col)
+                
+                elif simbolo == '-':
+                    return (TOKEN.menos, simbolo, lin, col)
+                
+                elif simbolo == '*':
+                    return (TOKEN.multiplica, simbolo, lin, col)
+                
+                elif simbolo == '(':
+                    return(TOKEN.abrePar, simbolo, lin, col)
+                
+                elif simbolo == ')':
+                    return(TOKEN.fechaPar, simbolo, lin, col)
+                
+                elif simbolo == '{':
+                    return(TOKEN.abreChave, simbolo, lin, col)
+                
+                elif simbolo == '}':
+                    return(TOKEN.fechaChave, simbolo, lin, col)
+                
+                elif simbolo == ',':
+                    return (TOKEN.virg, simbolo, lin, col)
+
+                elif simbolo == ';':
+                    return (TOKEN.ptoVirg, simbolo, lin, col)
+                
+                elif simbolo == '.':
+                    return (TOKEN.pto, simbolo, lin, col)
 
                 elif simbolo == '\0':
                     return (TOKEN.eof, '', self.linha, self.coluna)
@@ -88,14 +119,61 @@ class Lexico:
             elif estado == 3:
                 if simbolo.isdigit():
                     estado = 3
+                elif simbolo.isalpha():
+                    return (TOKEN.erro, lexema, lin, col)
                 else:
                     self.ungetchar(simbolo)
-                    return (token, lexema, lin, col)
+                    return (TOKEN.num, lexema, lin, col)
+                
             elif estado == 4:
-
+                if simbolo == '/':  # é comentário
+                    # descarta até fim da linha
+                    while simbolo != '\n' and simbolo != '\0':
+                        simbolo = self.getchar()
+                    return self.getToken()  # continua analisando depois do comentário
+                else:
+                    self.ungetchar(simbolo)  # não era comentário, devolve o caractere
+                    return (TOKEN.divide, lexema, lin, col)
+                
+            elif estado == 5:
+                if simbolo == '=':
+                    return (TOKEN.igual, lexema, lin, col)
+                else:
+                    self.ungetchar(simbolo) # não era igualdade, devolve o caractere
+                    return (TOKEN.atrib, lexema, lin, col)
             
+            elif estado == 6:
+                if simbolo == '=':
+                    return (TOKEN.menorIgual, lexema, lin, col)
+                else:
+                    self.ungetchar(simbolo) # não era menorIgual, devolve o caractere
+                    return (TOKEN.menor, lexema, lin, col)
+            elif estado == 7:
+                if simbolo == '=':
+                    return (TOKEN.maiorIgual, lexema, lin, col)
+                else:
+                    self.ungetchar(simbolo) # não era maiorIgual, devolve o caractere
+                    return (TOKEN.maior, lexema, lin, col)
+            elif estado == 8:
+                if simbolo == '\'':
+                    return (TOKEN.string, lexema, lin, col)
+                
+            elif estado == 9:
+                if simbolo == '\"':
+                    return (TOKEN.string, lexema, lin, col)
+            elif estado == 10:
+                if simbolo == '=':
+                    return (TOKEN.diferente, lexema, lin, col)
+                else:
+                    self.ungetchar(simbolo)
+                    return (TOKEN.erro, lexema, lin, col)
+                
             if simbolo not in ['\n', '\r']:
-                lexema += simbolo  # evita adicionar quebra de linha
+                if estado == 8 or estado == 9: # quando for string ele mantém os espaços em branco no lexema
+                    lexema += simbolo
+                else:
+                    if simbolo not in [' ', '\t']: #quando não é string ele retira os espaços em branco do lexema
+                        lexema += simbolo  # evita adicionar quebra de linha
             simbolo = self.getchar()
 
 if __name__ == '__main__':

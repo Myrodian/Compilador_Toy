@@ -3,10 +3,10 @@
 inicio
     leia("entre com x: ", x);
     leia("entre com y: ", y);
-    a= 5 * x;
-    if ( a>70)
+    a = 5 * x;
+    if (( a > 70) and (a < 20)) {
         b = 1;
-    else {
+    } else {
         b = 2;
         a = 3;
     }
