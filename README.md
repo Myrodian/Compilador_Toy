@@ -26,11 +26,11 @@ Mini-compilador que faz:
 
 ## 🗂 Estrutura do repositório
 Compilador_Toy/
-├── lexico.py # analisador léxico
-├── sintatico.py # parser LL(1)
-├── ttoken.py # enumeração de tokens
-├── Toy-sample.txt # programa exemplo
-└── README.md
+- ├── lexico.py # analisador léxico
+- ├── sintatico.py # parser LL(1)
+- ├── ttoken.py # enumeração de tokens
+- ├── Toy-sample.txt # programa exemplo
+- └── README.md
 
 
 ## ✅ Saída esperada
