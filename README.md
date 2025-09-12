@@ -1,80 +1,34 @@
 🧰 Compilador Toy
 
-Compilador_Toy é um projeto desenvolvido para a disciplina Compiladores I do curso de Ciência da Computação.
-O objetivo é implementar um compilador simples (Toy) para uma linguagem fictícia, aplicando os conceitos de análise léxica, sintática e semântica aprendidos em aula.
+Projeto desenvolvido para a disciplina Compiladores I do curso de Ciência da Computação 🎓.
+Objetivo: implementar um mini-compilador usando análise léxica, sintática (LL(1)) e, futuramente, semântica.
 
-📚 Descrição do Projeto
+📚 O que faz
 
-Este compilador é dividido em três fases principais:
+🔤 Análise Léxica → converte o código-fonte em tokens
 
-🔤 Analisador Léxico
+🌳 Análise Sintática (LL(1)) → valida a estrutura segundo a gramática
 
-Implementado em lexico.py
+🧠 (Futuro) → análise semântica e geração de código
 
-Lê o código-fonte caractere por caractere
-
-Constrói tokens usando um autômato de estados finitos
-
-Identifica palavras reservadas, identificadores, números, operadores e símbolos
-
-🌳 Analisador Sintático (Parser)
-
-Implementado em sintatico.py
-
-Baseado em parsing LL(1) e descida recursiva
-
-Verifica se a sequência de tokens está de acordo com a gramática:
-
-Prog -> inicio Coms fim .
-Coms -> LAMBDA | Com Coms
-Com  -> Ler | Escrever | If | Atrib | Bloco
-Ler  -> leia ( string, ident ) ;
-Escrever -> escreva ( string RestoEscrever
-RestoEscrever -> , ident ) ; | ) ;
-If -> if ( Exp ) Com RestoIf
-RestoIf -> LAMBDA | else Com
-Bloco -> { Coms }
-Atrib -> ident = Exp ;
-...
-
-
-🧠 (Fase futura) Analisador Semântico / Geração de Código
-
-Em desenvolvimento
-
-Responsável por verificar tipos, escopos e gerar código intermediário ou final
-
-🗂 Estrutura do Repositório
+🗂 Estrutura
 Compilador_Toy/
-│
-├── lexico.py        # 🔤 Implementação do analisador léxico
-├── sintatico.py     # 🌳 Implementação do analisador sintático (LL(1))
-├── ttoken.py        # 🏷️ Enumeração de tokens e mensagens
-├── Toy-sample.txt   # 📄 Programa exemplo para testes
-└── README.md        # 📘 Este arquivo
+├── lexico.py      # Analisador léxico
+├── sintatico.py   # Parser LL(1)
+├── ttoken.py      # Definição de tokens
+├── Toy-sample.txt # Programa exemplo
+└── README.md
 
-🚀 Como Executar
-
-Pré-requisito: Python 3.10+ instalado
-
-Clone o repositório
-
+🚀 Como usar
 git clone https://github.com/seu-usuario/Compilador_Toy.git
 cd Compilador_Toy
-
-
-Execute o compilador
-
 python sintatico.py
 
 
-Veja a saída
+✅ Saída: Traduzido com sucesso!
+❌ Erro: mostra linha e coluna do problema
 
-Se o programa estiver correto → ✅ “Traduzido com sucesso!”
-
-Caso contrário → ❌ Erro sintático com linha e coluna
-
-🧪 Exemplo de Programa de Entrada
+🧪 Exemplo
 inicio
     leia("Digite um valor", x);
     escreva("Valor lido: ", x);
@@ -84,34 +38,17 @@ inicio
         escreva("Não positivo");
 fim.
 
-👨‍💻 Equipe
+🔄 Fluxo do Compilador
+graph LR
+A[Código-Fonte] --> B[🔤 Léxico]
+B --> C[🌳 Sintático (LL1)]
+C --> D[🧠 Semântico (futuro)]
+D --> E[⚙️ Código Intermediário]
 
-Você – Estudante de Ciência da Computação ✍️
+🎯 Objetivos
 
-Projeto desenvolvido como parte da disciplina Compiladores I
+Entender autômatos e gramáticas LL(1)
 
-🎯 Objetivos Didáticos
+Construir um parser de descida recursiva
 
-✅ Entender como funciona um analisador léxico (scanner)
-
-✅ Implementar um parser recursivo descendente LL(1)
-
-⏳ Implementar análise semântica e geração de código
-
-🎓 Consolidar os conceitos da disciplina de compiladores
-
-🛠 Tecnologias
-
-Linguagem: Python 3 🐍
-
-Paradigma: Descida recursiva para parsing
-
-Conceitos: Teoria da compilação, autômatos, gramáticas LL(1)
-
-💡 Próximos Passos
-
-🧠 Adicionar análise semântica (tabela de símbolos)
-
-⚙️ Implementar geração de código intermediário
-
-🧪 Criar mais casos de teste para validação
+Evoluir para análise semântica e geração de código
