@@ -83,10 +83,10 @@ class TOKEN(IntEnum):
     @classmethod
     def reservada(cls, lexema):
         reservadas = {
-            'program': TOKEN.PROG,
+            'prog': TOKEN.PROG,
             'if': TOKEN.IF,
-            'begin': TOKEN.INICIO,
-            'end': TOKEN.FIM,
+            'inicio': TOKEN.INICIO,
+            'fim': TOKEN.FIM,
             'else': TOKEN.ELSE,
             'leia': TOKEN.LEIA,
             'escreva': TOKEN.ESCREVA,

@@ -107,6 +107,14 @@ class Lexico:
 
                 elif simbolo == '\0':
                     return (TOKEN.eof, '', self.linha, self.coluna)
+                
+                elif simbolo in [' ', '\t', '\n', '\r']:
+                    # ignora brancos e quebras de linha
+                    lexema = ''
+                    estado = 1
+                else:
+                    # qualquer outro caractere não reconhecido é erro
+                    estado = 0
 
             elif estado == 2:
                 if simbolo.isalnum():
@@ -120,7 +128,7 @@ class Lexico:
                 if simbolo.isdigit() or simbolo == ".":
                     estado = 3
                 elif simbolo.isalpha():
-                    return (TOKEN.erro, lexema, lin, col)
+                    estado = 0 # erro, número não pode conter letras
                 else:
                     self.ungetchar(simbolo)
                     return (TOKEN.num, lexema, lin, col)
@@ -137,6 +145,7 @@ class Lexico:
                 
             elif estado == 5:
                 if simbolo == '=':
+                    lexema += simbolo
                     return (TOKEN.igual, lexema, lin, col)
                 else:
                     self.ungetchar(simbolo) # não era igualdade, devolve o caractere
@@ -144,12 +153,14 @@ class Lexico:
             
             elif estado == 6:
                 if simbolo == '=':
+                    lexema += simbolo 
                     return (TOKEN.menorIgual, lexema, lin, col)
                 else:
                     self.ungetchar(simbolo) # não era menorIgual, devolve o caractere
                     return (TOKEN.menor, lexema, lin, col)
             elif estado == 7:
                 if simbolo == '=':
+                    lexema += simbolo 
                     return (TOKEN.maiorIgual, lexema, lin, col)
                 else:
                     self.ungetchar(simbolo) # não era maiorIgual, devolve o caractere
@@ -163,17 +174,24 @@ class Lexico:
                     return (TOKEN.string, lexema, lin, col)
             elif estado == 10:
                 if simbolo == '=':
+                    lexema += simbolo 
                     return (TOKEN.diferente, lexema, lin, col)
+                else:
+                    estado = 0 # não era diferente, erro
+
+            elif estado == 0:
+                if simbolo == '.' or simbolo.isalpha() or simbolo.isdigit():
+                    estado = 0
                 else:
                     self.ungetchar(simbolo)
                     return (TOKEN.erro, lexema, lin, col)
                 
             if simbolo not in ['\n', '\r']:
                 if estado == 8 or estado == 9: # quando for string ele mantém os espaços em branco no lexema
-                    lexema += simbolo
+                    lexema += simbolo # evita adicionar quebra de linha
                 else:
                     if simbolo not in [' ', '\t']: #quando não é string ele retira os espaços em branco do lexema
-                        lexema += simbolo  # evita adicionar quebra de linha
+                        lexema += simbolo  
             simbolo = self.getchar()
 
 if __name__ == '__main__':
