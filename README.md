@@ -32,8 +32,8 @@ Compilador_Toy/
 ├── Toy-sample.txt # programa exemplo
 └── README.md
 
-Saída esperada:
 
-✅ Traduzido com sucesso!
+## ✅ Saída esperada
 
-❌ Em caso de erro: mensagem com linha e coluna.
+- ✅ **Traduzido com sucesso!**
+- ❌ **Em caso de erro:** mensagem indicando a **linha** e **coluna** do problema
