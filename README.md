@@ -4,7 +4,6 @@
 
 Repositório para o **Compilador Toy**, desenvolvido na disciplina *Compiladores I* (Curso de Ciência da Computação). Projeto didático para implementar scanner e parser (LL(1)).
 
----
 
 ## 📋 Sumário
 - [O que é](#o-que-é)  
@@ -14,7 +13,6 @@ Repositório para o **Compilador Toy**, desenvolvido na disciplina *Compiladores
 - [Fluxo do compilador](#fluxo-do-compilador)  
 - [Próximos passos](#próximos-passos)
 
----
 
 ## ❓ O que é
 Mini-compilador que faz:
@@ -22,7 +20,6 @@ Mini-compilador que faz:
 - 🌳 Análise sintática LL(1) (`sintatico.py`)
 - 🧠 (futuro) análise semântica / geração de código
 
----
 
 ## 🗂 Estrutura do repositório
 Compilador_Toy/
