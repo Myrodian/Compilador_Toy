@@ -1,5 +1,6 @@
 # 🧰 Compilador Toy
 
+
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue) ![Status](https://img.shields.io/badge/status-desenvolvimento-yellow)
 
 Repositório para o **Compilador Toy**, desenvolvido na disciplina *Compiladores I* (Curso de Ciência da Computação). Projeto didático para implementar scanner e parser (LL(1)).
@@ -34,3 +35,4 @@ Compilador_Toy/
 
 - ✅ **Traduzido com sucesso!**
 - ❌ **Em caso de erro:** mensagem indicando a **linha** e **coluna** do problema
+- Descontinuado.
